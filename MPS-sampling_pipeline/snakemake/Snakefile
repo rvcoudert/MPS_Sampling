@@ -1,0 +1,298 @@
+## Snakefile
+##  Python script to manage the Snakemake pipeline.
+
+
+# snakemake --cores 5 -s ~/GIT/MPS-sampling_pipeline/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/ --latency-wait 60000  --config verbose=True 
+
+
+## Get config variables.
+# Verbose, to be or not to be.
+if "verbose" in config.keys():
+    verbose = config["verbose"]
+else:
+    verbose = False
+
+# Display the current directory.
+if verbose:
+    # Print current directory.
+    print("Current Directory : " + os.getcwd())
+
+# Set input directory.
+if "input_directory" in config.keys():
+    input_directory = config["input_directory"]
+else:
+    input_directory = "input/"
+    if verbose:
+        print("Input directory is not defined in the snakemake command.\n\tSet to default input_directory=\"input\".")
+
+# Set LinclustTemp directory.
+if "LinclustTemp_directory" in config.keys():
+    LinclustTemp_directory = config["LinclustTemp_directory"]
+else:
+    LinclustTemp_directory = "LinclustTemp"
+    if verbose:
+        print("LinclustTemp directory is not defined in the snakemake command.\n\tSet to default LinclustTemp_directory=\"LinclustTemp\".")
+
+# If it is not existed yet, create the LinclustTemp directory.
+if not os.path.exists(LinclustTemp_directory):
+   os.makedirs(LinclustTemp_directory)
+   if verbose:
+       print("Creation of directory:", LinclustTemp_directory)
+
+# Set output directory.
+if "output_directory" in config.keys():
+    output_directory = config["output_directory"]
+else:
+    output_directory = "output/"
+    if verbose:
+        print("Output directory is not defined in the snakemake command.\n\tSet to default output_directory=\"input\".")
+
+# Set e_values.
+if "e_values" in config.keys():
+    e_values = config["e_values"]
+else:
+    e_values = 0.00001
+    if verbose:
+        print("E-values (Linclust) are not defined in the snakemake command.\n\tSet to default e_values=10e-6.")
+
+
+# Set coverage mode.
+if "cov_modes" in config.keys():
+    cov_modes = config["cov_modes"]
+else:
+    cov_modes = 0
+    if verbose:
+        print("Coverage modes (Linclust) are not defined in the snakemake command.\n\tSet to default cov_modes=0.")
+
+# Set minimum coverage.
+if "min_covs" in config.keys():
+    min_covs = config["min_covs"]
+else:
+    min_covs = 0.8
+    if verbose:
+        print("Minimum coverages (Linclust) are not defined in the snakemake command.\n\tSet to default min_covs=0.8.")
+
+# Set minimum sequence identity.
+if "min_seq_ids" in config.keys():
+    min_seq_ids = config["min_seq_ids"]
+else:
+    min_seq_ids = 0.6
+    if verbose:
+        print("Minimum sequence identites (Linclust) are not defined in the snakemake command.\nSet to default min_seq_ids=0.6.")
+        
+# Set minimum number of Lin-clusters for the pre-connection.
+if "min_nb_Linclusters" in config.keys():
+    min_nb_Linclusters = config["min_nb_Linclusters"]
+else:
+    min_nb_Linclusters = 2
+    if verbose:
+        print("Minimum number of Lin-clusters (pre-connection) are not defined in the snakemake command.\nSet to default min_nb_Linclusters=2.")
+
+# Set minimum number of Lin-clusters for the hierarchical clustering with complete linkage.
+if "deltas" in config.keys():
+    deltas = config["deltas"]
+else:
+    deltas = 0.5
+    if verbose:
+        print("Minimum similarity deltas (complete-linkage) are not defined in the snakemake command.\nSet to default deltas=0.5.")
+
+
+
+## Set important directories.
+# Set directory of fasta files.
+input_fasta_directory = input_directory + "fasta/"
+# Set directory of input stats.
+input_stats_directory = output_directory + "0.input_stats/"
+# Set directory of Linclust data.
+Linclust_directory = output_directory + "1.Linclust/"
+# Set directory of Lin-cluster matrix.
+Linclustering_matrix_directory = output_directory + "2_1.2_2.Linclustering_matrix/"
+# Set directory of Lin-combination matrix.
+Lincombination_matrix_directory = output_directory + "2_3.Lincombination_matrix/"
+# Set directory of pre-connection.
+preconnection_directory = output_directory + "3.preconnection/"
+# Set directory of similarity submatrices.
+similarity_submatrices_directory = output_directory + "4_1.similarity_submatrices/"
+# Set directory of MPS-clusters.
+MPS_clusters_directory = output_directory + "4_2.MPS_clusters/"
+# Set directory of genome cascading links.
+genome_cascading_links_directory = output_directory + "4_3.genome_cascading_links/"
+# Set directory of MPS-representatives and MPS-links.
+MPS_results_directory = output_directory + "4.MPS_results_directory/"
+
+
+# List protein families.
+list_proteinFamilies = os.listdir(input_fasta_directory)
+list_proteinFamilies = sorted(list(list_proteinFamilies))
+if verbose:
+    print("Found " + str(len(list_proteinFamilies)) + " protein families among the input files:")
+    print(list_proteinFamilies)
+
+
+# General rule : List requested outputs.
+rule all:
+    input:
+        # Step 0: Check integrity and compute input stats.
+        input_stats = input_stats_directory + "input_stats.csv",
+        # Step 1: Build Lin-clusters whithin protein families.
+        Lincluster_files = expand(Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_cluster.tsv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, proteinFamily=list_proteinFamilies),
+        # Steps 2-1, 2-2: Build Lin-cluster matrix.
+        Linclustering_matrix = expand(Linclustering_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Linclustering_matrix.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids),
+        # Step 2-3: Build the Lin-combination matrix.
+        Lincombination_matrix = expand(Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids),
+        # Step 3: Build pre-connected components.
+        Lincomb_precomp_links = expand(preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters),
+        # Step 4-1: Compute similarity submatrices.
+        list_similarity_submatrices = expand(similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters),
+        # Step 4-2: Build MPS-clusters.
+        Lincomb_MPS_clusters_links = expand(MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
+        # Step 4-3: Gather genome cascading links.
+        genome_cascading_links = expand(genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
+        # Step 5: Select MPS-representatives.
+        MPS_representatives = expand(MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas)
+
+
+# Prefer fasta preparation over sequence clustering.
+ruleorder: check_integrity > Linclust
+
+
+## Step 0: Check integrity and compute input stats.
+
+
+# Check data integrity and compute basic stats.
+rule check_integrity:
+    input:
+        fasta_files = expand(input_fasta_directory + "{proteinFamily}/{proteinFamily}.fasta", proteinFamily=list_proteinFamilies),
+        genome_index = input_directory + "genome_index.csv"
+    params:
+        cores = workflow.cores
+    output:
+        input_stats = input_stats_directory + "input_stats.csv"
+    script:
+        "scripts/0.check_integrity.R"
+
+
+## Step 1: Build Lin-clusters whithin protein families.
+
+
+# Launch Linclust for each protein family.
+rule Linclust:
+    input:
+        input_fasta_directory + "{proteinFamily}/{proteinFamily}.fasta"
+    output:
+        Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_all_seqs.fasta",
+        Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_rep_seq.fasta",
+        Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_cluster.tsv"
+    shell:
+        "mmseqs easy-cluster -e {wildcards.e_value} --cov-mode {wildcards.cov_mode} -c {wildcards.min_cov}  --min-seq-id {wildcards.min_seq_id} {input} " + Linclust_directory + "e_value_{wildcards.e_value}_cov_mode_{wildcards.cov_mode}_min_cov_{wildcards.min_cov}_min_seq_id_{wildcards.min_seq_id}/{wildcards.proteinFamily}/{wildcards.proteinFamily}.fasta " + LinclustTemp_directory + "/e_value_{wildcards.e_value}_cov_mode_{wildcards.cov_mode}_min_cov_{wildcards.min_cov}_min_seq_id_{wildcards.min_seq_id}_{wildcards.proteinFamily}"
+
+
+## Steps 2-1, 2-2: Build Lin-cluster matrix.
+
+
+# Label and merge Lin-clusters within protein families to build a single Lin-cluster matrix.
+rule build_Linclustering_matrix:
+    input:
+    # Double brackets to not expand other wildcards.
+        Lincluster_files = expand(Linclust_directory + "e_value_{{e_value}}_cov_mode_{{cov_mode}}_min_cov_{{min_cov}}_min_seq_id_{{min_seq_id}}/{proteinFamily}/{proteinFamily}.fasta_cluster.tsv", proteinFamily=list_proteinFamilies)
+    output:
+        Linclustering_matrix = Linclustering_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Linclustering_matrix.csv"
+    params:
+        cores = workflow.cores
+    script:
+        "scripts/2_1.2_2.build_Lin-clustering_matrix.R"
+
+
+## Step 2-3: Build Lin-combination matrix.
+
+
+# Remove redundant Lin-combinations to build a Lin-combination matrix.
+rule build_Lincombination_matrix:
+    input:
+        Linclustering_matrix = Linclustering_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Linclustering_matrix.csv"
+    output:
+        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv",
+        gen_Lincomb_links = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/gen_Lincomb_links.csv"
+    params:
+        cores = workflow.cores
+    script:
+        "scripts/2_3.build_Lin-combination_matrix.R"
+
+
+## Step 3: Build pre-connected components.
+
+
+# Build pre-connected components.
+rule build_preconnected_components:
+    input:
+        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv",
+    output:
+        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv"
+    params:
+        cores = workflow.cores,
+        min_nb_Lincluster = "{min_nb_Lincluster}"
+    script:
+        "scripts/3.build_pre-connected_components.R"
+
+
+## Step 4-1: Compute similarity sub-matrices.
+
+
+# Compute similarity submatrix for each pre-connected component.
+rule compute_similarity_submatrices:
+    input:
+        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv",
+        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv"
+    output:
+        list_similarity_submatrices = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv"
+    params:
+        similarity_submatrices_directory = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/similarity_submatrices/"
+    script:
+        "scripts/4_1.compute_similarity_submatrices.R"
+
+
+## Step 4-2: Build MPS-clusters.
+
+
+# Build MPS-clusters through hierarchical clustering with complete-linkage.
+rule compute_MPS_clustering:
+    input:
+        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv",
+        list_similarity_submatrices = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv"
+    output:
+        Lincomb_MPS_cluster_links = MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv",
+    params:
+        delta = "{delta}",
+        similarity_submatrices_directory = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/similarity_submatrices/"
+    script:
+        "scripts/4_2.build_MPS-clusters.R"
+
+
+## Step 4-3: Gather genome cascading links.
+
+
+# Gather cascading genome clusterings into one single file.
+rule gather_cascading_links:
+    input:
+        gen_Lincomb_links = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/gen_Lincomb_links.csv",
+        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv",
+        Lincomb_MPS_cluster_links = MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv",
+    output:
+        genome_cascading_links = genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv",
+    script:
+        "scripts/4_3.gather_cascading_links.R"
+
+
+## Step 5: Select MPS-representatives.
+
+# Select one MPS-representative genome per MPS-cluster.
+rule select_MPS_representatives:
+    input:
+        genome_index = input_directory + "genome_index.csv",
+        genome_cascading_links = genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv",
+        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv"
+    output:
+        MPS_representatives = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv",
+        MPS_links = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_links.csv",
+    script:
+        "scripts/5.choose_MPS-representatives.R"
