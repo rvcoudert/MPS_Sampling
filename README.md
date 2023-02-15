@@ -33,6 +33,6 @@ See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/m
 ## 📲 Contact
 
 
-Feel free to contact me for any comment, concern or discussion.
-[mail](rv.coudert@gmail.com)
+Feel free to contact me for any comment, concern or discussion : 
+[Mail](rv.coudert@gmail.com)
 [LinkedIn](https://www.linkedin.com/in/rvcoudert/)
