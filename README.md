@@ -53,6 +53,24 @@ Usage: snakemake [-s|--snakefile PATH_TO_SNAKEFILE]
     
 ```
 
+## 🐍 Workflow
+
+
+### MPS-Sampling
+
+
+0. Check integrity and compute input stats.
+1. Build Lin-clusters whithin protein families.
+2. Build the Lin-combination matrix.
+    1. Build Lin-cluster matrix.
+    2. Rereplicate the rows.
+    3. Build the Lin-combination matrix.
+3. Build pre-connected components.
+4. Build MPS-clusters.
+    1. Compute similarity submatrices.
+    2. Build MPS-clusters.
+5. Select MPS-representatives.
+
 
 ## 📖 Publication
 
