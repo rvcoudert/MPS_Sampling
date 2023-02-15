@@ -1,4 +1,6 @@
-# MPS-sampling Pipeline
+# 🧬 MPS-Sampling
+
+> An easy-to-use workflow for generating context specific genome-scale metabolic models and predicting metabolic interactions within microbial communities directly from metagenomic data.
 
 ## What is MPS-sampling Pipeline ?
 
