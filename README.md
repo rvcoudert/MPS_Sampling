@@ -28,15 +28,15 @@ snakemake -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
 ```
 Usage: snakemake [-s|--snakefile PATH_TO_SNAKEFILE]
                  [-d|--directory PATH_TO_DATA]
-                 [--config  input_directory=input
-                            LinclustTemp_directory=LinclustTemp
-                            output_directory=output
-                            e_values=0.00001
-                            cov_modes=0
-                            min_covs=0.8
-                            min_seq_ids=0.6
-                            min_nb_Linclusters=2
-                            deltas=0.5]
+                 [--config  input_directory=input (optional)
+                            LinclustTemp_directory=LinclustTemp (optional)
+                            output_directory=output (optional)
+                            e_values=0.00001 (optional)
+                            cov_modes=0 (optional)
+                            min_covs=0.8 (optional)
+                            min_seq_ids=0.6 (optional)
+                            min_nb_Linclusters=2 (optional)
+                            deltas=0.5 (optional)]
                        
  Options:
   -s, --snakefile                   Path to the SnakeFile of MPS-Sampling.
