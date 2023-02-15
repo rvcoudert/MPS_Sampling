@@ -10,7 +10,7 @@ SnakeMake installation method is available on the [official website](https://sna
 
 ### 2) Set the Conda Environment
 
-Install [<img src="[markdownmonstericon.png](https://raw.githubusercontent.com/soedinglab/mmseqs2/master/.github/mmseqs2_logo.png)" alt="MMseq2" style="float: left; margin-right: 10px;" />](https://github.com/soedinglab/MMseqs2) in the [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) dedicated to MPS-sampling Pipeline.
+Install [MMseqs2 <img src="https://raw.githubusercontent.com/soedinglab/mmseqs2/master/.github/mmseqs2_logo.png" alt="" style="float: left; margin-left: 10px; margin-right: 10px; height: 1em;" />](https://github.com/soedinglab/MMseqs2) in the [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) dedicated to MPS-sampling Pipeline.
 
 ## 🔧 Usage
 
