@@ -39,7 +39,7 @@ SnakeMake installation method is available on the [official website](https://sna
 
 ### 2) Set the Conda Environment
 
-SnakeMake is using [Python](https://www.python.org/), [MMseqs2-Linclust](https://github.com/soedinglab/MMseqs2/wiki/Tutorials) and the LBBE R package [RiboPHYL](https://gitlab.in2p3.fr/ribodb/riboPHYL).
+SnakeMake is using [Python](https://www.python.org/), [MMseqs2-Linclust](https://github.com/soedinglab/mmseqs2/wiki#clustering-databases-using-mmseqs-cluster-or-mmseqs-linclust) and the LBBE R package [RiboPHYL](https://gitlab.in2p3.fr/ribodb/riboPHYL).
 <br/>
 While Python is natively pre-installed in Conda, you need to personnally install MMseq2-Linclust and RiboPHYL in the [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) dedicated to MPS-sampling Pipeline.
 
