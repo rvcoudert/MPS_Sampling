@@ -10,7 +10,7 @@ SnakeMake installation method is available on the [official website](https://sna
 
 ### 2) Set the Conda Environment
 
-Install MMseq2 in the [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) dedicated to MPS-sampling Pipeline.
+Install [MMseq2](https://github.com/soedinglab/MMseqs2) in the [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) dedicated to MPS-sampling Pipeline.
 
 ## 🔧 Usage
 
@@ -22,7 +22,36 @@ See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/m
 
 ### 2) Launch
 
-`snakemake --cores 1 -s ~/GIT/MPS-sampling_pipeline/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/ --latency-wait 60000  --config verbose=TRUE`
+```
+snakemake -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
+```
+```
+Usage: snakemake [-s|--snakefile PATH_TO_SNAKEFILE]
+                 [-d|--directory PATH_TO_DATA]
+                 [--config  input_directory=input
+                            LinclustTemp_directory=LinclustTemp
+                            output_directory=output
+                            e_values=0.00001
+                            cov_modes=0
+                            min_covs=0.8
+                            min_seq_ids=0.6
+                            min_nb_Linclusters=2
+                            deltas=0.5]
+                       
+ Options:
+  -s, --snakefile                   Path to the SnakeFile of MPS-Sampling.
+  -d, --directory                   Path to the dataset to process.
+  --config  input_directory         Set the input directory. (default: "input")
+            LinclustTemp_directory  Set the temporary directory for Linclust files. (default: "LinclustTemp")
+            output_directory        Set the output directory. (default: "output")
+            e_values                Set the e-value for Linclust (step 1). It can be a set, e.g. {0.0001, 0.0001}. (default: 0.00001)
+            cov_modes               Set the coverage mode for Linclust (step 1). It can be a set, e.g. {0, 1, 2}. (default: 0)
+            min_covs                Set the minimum coverage for Linclust (step 1). It can be a set, e.g. {0.7, 0.8, 0.9}. (default: 0.8)
+            min_seq_ids             Set the minimum sequence identity for Linclust (step 1). It can be a set, e.g. {0.4, 0.6, 0.8}. (default: 0.6)
+            min_nb_Linclusters      Set the minimum number of common Lin-clusters identity for pre-connection (step 3). It can be a set, e.g. {10, 20, 30}. (default: 2)
+            deltas                  Set the minimum similarity Δ for the hierarchical clustering with complete-linkage (step 4). It can be a set, e.g. {0.4, 0.5, 0.6}. (default: 0.5)
+    
+```
 
 
 ## 📖 Publication
@@ -33,6 +62,8 @@ See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/m
 ## 📲 Contact
 
 
-Feel free to contact me for any comment, concern or discussion : 
+Feel free to contact me for any comment, concern or discussion :
+<br/>
 [Mail](rv.coudert@gmail.com)
+<br/>
 [LinkedIn](https://www.linkedin.com/in/rvcoudert/)
