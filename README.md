@@ -72,6 +72,11 @@ Usage: snakemake [-s|--snakefile PATH_TO_SNAKEFILE]
 5. Select MPS-representatives.
 
 
+![Complete workflow of MPS-Sampling](https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.3_workflow_complete.png)
+![SnakeMake DAG (directed acyclic graph)](https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S1_Flowchart.png)
+![Tables and ERD (entity relationship diagram) ](https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S2_Tables.png)
+
+
 ## 📖 Publication
 
 
