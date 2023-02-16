@@ -18,7 +18,7 @@ Congratulations, MPS-Sampling is ready to go !
 
 ## 👉 Example
 
-The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example) proposes the same example as presented in the article.
+The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/example/article) proposes the same example as presented in the article.
 <br />
 The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
 
@@ -26,7 +26,7 @@ The sequences from 4 protein families enables the reduction of 10 genomes to 5 g
 
 ### 1) Prepare the input
 
-See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example/input).
+See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/main/example/article/input).
 - *genome_index.csv*: A `csv` file with one row per genome, one column for the primary key "genomeAccession" and one column for each priority tag.
 - *fasta/protein_family/protein_family.fasta*: A `fasta` file for each protein family.
 
