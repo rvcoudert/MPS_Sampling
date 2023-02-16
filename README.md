@@ -4,19 +4,27 @@
 
 ## ⚙️ Installation
 
-### 1) Install SnakeMake
+### 🐍 Install SnakeMake
 
-SnakeMake installation method is available on the [official website](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html). It needs to be installed through [Conda](https://docs.conda.io/projects/conda/en/latest/index.html) in a bash environment.
+SnakeMake installation method is available on the [official website](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
 
-### 2) Set the Conda Environment
+### 📇 Import MPS-Sampling
 
-Install [MMseqs2](https://github.com/soedinglab/MMseqs2) in the [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) dedicated to MPS-sampling Pipeline.
+Simply import the code from the GitHub repository: `git clone https://github.com/rvcoudert/MPS_Sampling`
+
+### 🎉 Finish
+
+Congratulations, MPS-Sampling is ready to go !
+
+## 👉 Example
+
+The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example) proposes the same example as presented in the article.
+<br />
+The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
 
 ## 🔧 Usage
 
-## 0) The same example as in the article is provided in the directory: [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example). It has 10 genomes and 4 protein families, sampled to 5 genomes.
-
-### 1) Prepare the Input
+### 1) Prepare the input
 
 See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example/input).
 - *genome_index.csv*: A `csv` file with one row per genome, one column for the primary key "genomeAccession" and one column for each priority tag.
