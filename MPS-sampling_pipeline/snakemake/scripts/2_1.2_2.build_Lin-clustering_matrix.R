@@ -11,9 +11,13 @@
 
 
 library(magrittr)
+print("sessionInfo()")
 print(sessionInfo())
+print(".libPaths()")
+print(.libPaths())
+print("loadedNamespeces()")
+print(loadedNamespaces())
 cat("\n")
-
 
 cores <- snakemake@params[["cores"]]
 cat("Parallelization on", cores, "cores.\n")

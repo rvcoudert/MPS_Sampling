@@ -11,7 +11,13 @@
 
 
 library(magrittr)
-
+print("sessionInfo()")
+print(sessionInfo())
+print(".libPaths()")
+print(.libPaths())
+print("loadedNamespeces()")
+print(loadedNamespaces())
+cat("\n")
 
 genome_index <- snakemake@input[["genome_index"]] %>%
   data.table::fread()

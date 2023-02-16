@@ -11,7 +11,13 @@
 
 
 library(magrittr)
-
+print("sessionInfo()")
+print(sessionInfo())
+print(".libPaths()")
+print(.libPaths())
+print("loadedNamespeces()")
+print(loadedNamespaces())
+cat("\n")
 
 gen_Lincomb_links <- snakemake@input[["gen_Lincomb_links"]] %>%
   data.table::fread()

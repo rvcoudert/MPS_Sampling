@@ -7,6 +7,23 @@
 # load("~/3.build_pre-connected_componentsDS")
 
 
+##### Input #####
+
+
+library(magrittr)
+print("sessionInfo()")
+print(sessionInfo())
+print(".libPaths()")
+print(.libPaths())
+print("loadedNamespeces()")
+print(loadedNamespaces())
+cat("\n")
+
+Lincombination_matrix <- snakemake@input[["Lincombination_matrix"]] %>%
+  data.table::fread()
+min_nb_Linclusters <- as.integer(snakemake@params[["min_nb_Lincluster"]])
+
+
 ##### Functions #####
 
 
@@ -76,7 +93,7 @@ count_common_Linclusters <- function(
                              ignored_Lincombinations)]
   } else {
     remaining_Lincombination_matrix <- Lincombination_matrix[!get(column_ID) %in%
-                                                  ignored_Lincombinations]
+                                                               ignored_Lincombinations]
   }
 
 
@@ -171,7 +188,7 @@ get_isolated_Lincombinations <- function(
 
   # List the isolated Lin-combinations.
   isolated_Lincombinations <- which((count_NA + count_Linsingletons_perRow) >
-                           (nb_cols - min_nb_Linclusters))
+                                      (nb_cols - min_nb_Linclusters))
 
   # If asked, then print a message
   # about the isolated Lin-combinations that have been found.
@@ -361,16 +378,6 @@ split_into_preconnected_components <- function(
   return(list_component)
 }
 
-
-##### Input #####
-
-
-library(magrittr)
-print(sessionInfo())
-
-Lincombination_matrix <- snakemake@input[["Lincombination_matrix"]] %>%
-  data.table::fread()
-min_nb_Linclusters <- as.integer(snakemake@params[["min_nb_Lincluster"]])
 
 
 #### Lincomb_precomp_links #####

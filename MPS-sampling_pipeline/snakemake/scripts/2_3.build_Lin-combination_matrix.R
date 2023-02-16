@@ -11,7 +11,13 @@
 
 
 library(magrittr)
+print("sessionInfo()")
 print(sessionInfo())
+print(".libPaths()")
+print(.libPaths())
+print("loadedNamespeces()")
+print(loadedNamespaces())
+cat("\n")
 
 Linclustering_matrix <- snakemake@input[["Linclustering_matrix"]] %>%
   data.table::fread()

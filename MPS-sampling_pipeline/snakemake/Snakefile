@@ -2,7 +2,7 @@
 ##  Python script to manage the Snakemake pipeline.
 
 
-# snakemake --cores 5 -s ~/GIT/MPS-sampling_pipeline/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/ --latency-wait 60000  --config verbose=True 
+# snakemake --cores 1 --use-conda -s ~/GIT/MPS-sampling_pipeline/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/
 
 
 ## Get config variables.
@@ -164,10 +164,12 @@ rule check_integrity:
     input:
         fasta_files = expand(input_fasta_directory + "{proteinFamily}/{proteinFamily}.fasta", proteinFamily=list_proteinFamilies),
         genome_index = input_directory + "genome_index.csv"
-    params:
-        cores = workflow.cores
     output:
         input_stats = input_stats_directory + "input_stats.csv"
+    params:
+        cores = workflow.cores
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/0.check_integrity.R"
 
@@ -183,6 +185,8 @@ rule Linclust:
         Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_all_seqs.fasta",
         Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_rep_seq.fasta",
         Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_cluster.tsv"
+    conda:
+        "envs/Linclust_env.yaml"
     shell:
         "mmseqs easy-cluster -e {wildcards.e_value} --cov-mode {wildcards.cov_mode} -c {wildcards.min_cov}  --min-seq-id {wildcards.min_seq_id} {input} " + Linclust_directory + "e_value_{wildcards.e_value}_cov_mode_{wildcards.cov_mode}_min_cov_{wildcards.min_cov}_min_seq_id_{wildcards.min_seq_id}/{wildcards.proteinFamily}/{wildcards.proteinFamily}.fasta " + LinclustTemp_directory + "/e_value_{wildcards.e_value}_cov_mode_{wildcards.cov_mode}_min_cov_{wildcards.min_cov}_min_seq_id_{wildcards.min_seq_id}_{wildcards.proteinFamily}"
 
@@ -199,6 +203,8 @@ rule build_Linclustering_matrix:
         Linclustering_matrix = Linclustering_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Linclustering_matrix.csv"
     params:
         cores = workflow.cores
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/2_1.2_2.build_Lin-clustering_matrix.R"
 
@@ -215,6 +221,8 @@ rule build_Lincombination_matrix:
         gen_Lincomb_links = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/gen_Lincomb_links.csv"
     params:
         cores = workflow.cores
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/2_3.build_Lin-combination_matrix.R"
 
@@ -231,6 +239,8 @@ rule build_preconnected_components:
     params:
         cores = workflow.cores,
         min_nb_Lincluster = "{min_nb_Lincluster}"
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/3.build_pre-connected_components.R"
 
@@ -247,6 +257,8 @@ rule compute_similarity_submatrices:
         list_similarity_submatrices = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv"
     params:
         similarity_submatrices_directory = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/similarity_submatrices/"
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/4_1.compute_similarity_submatrices.R"
 
@@ -264,6 +276,8 @@ rule compute_MPS_clustering:
     params:
         delta = "{delta}",
         similarity_submatrices_directory = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/similarity_submatrices/"
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/4_2.build_MPS-clusters.R"
 
@@ -279,6 +293,8 @@ rule gather_cascading_links:
         Lincomb_MPS_cluster_links = MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv",
     output:
         genome_cascading_links = genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv",
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/4_3.gather_cascading_links.R"
 
@@ -294,5 +310,7 @@ rule select_MPS_representatives:
     output:
         MPS_representatives = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv",
         MPS_links = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_links.csv",
+    conda:
+        "envs/R_env.yaml"
     script:
         "scripts/5.choose_MPS-representatives.R"

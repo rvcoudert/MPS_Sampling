@@ -11,6 +11,13 @@
 
 
 library(magrittr)
+print("sessionInfo()")
+print(sessionInfo())
+print(".libPaths()")
+print(.libPaths())
+print("loadedNamespeces()")
+print(loadedNamespaces())
+cat("\n")
 
 Lincombination_matrix <- snakemake@input[["Lincombination_matrix"]] %>%
   data.table::fread()
