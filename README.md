@@ -78,20 +78,20 @@ Usage: snakemake [-s|--snakefile PATH_TO_SNAKEFILE]
 Below the complete workflow of MPS-Sampling.
 - First line: Genome level.
 - Second line: Encoding levels.
-- 
-![Complete workflow of MPS-Sampling](https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.3_workflow_complete.png)
+
+<img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.3_workflow_complete.png" alt="Complete WorkFlow of MPS-Sampling" width=80% />
 
 #### DAG
 
 Below the directed acyclic graph (DAG) describing the different steps of the SnakeMake pipeline of MPS-Sampling.
 
-![SnakeMake DAG (directed acyclic graph)](https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S1_Flowchart.png)
+<img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S1_Flowchart.png" alt="SnakeMake DAG (directed acyclic graph)" width=80%/>
 
 #### ERD
 
 Below the entity relationship diagram (ERD) describing the different tables processed by MPS-Sampling.
 
-![Tables and ERD (entity relationship diagram) ](https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S2_Tables.png)
+<img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S2_Tables.png" alt="Tables and ERD (entity relationship diagram)" width=60%/>
 
 
 ## 📖 Publication
