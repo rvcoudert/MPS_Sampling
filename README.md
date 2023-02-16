@@ -14,6 +14,8 @@ Install [MMseqs2](https://github.com/soedinglab/MMseqs2) in the [Conda environme
 
 ## 🔧 Usage
 
+## 0) The same example as in the article is provided in the directory: [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example). It has 10 genomes and 4 protein families, sampled to 5 genomes.
+
 ### 1) Prepare the Input
 
 See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example/input).
@@ -23,12 +25,13 @@ See the [inputs of the example](https://github.com/rvcoudert/MPS_Sampling/tree/m
 ### 2) Launch
 
 ```
-snakemake -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
+snakemake --use-conda -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
 ```
 ```
-Usage: snakemake [-s|--snakefile PATH_TO_SNAKEFILE]
-                 [-d|--directory PATH_TO_DATA]
-                 [--config  input_directory=input (optional)
+Usage: snakemake  --use-conda (necessary to use conda env)
+                  [-s|--snakefile PATH_TO_SNAKEFILE]
+                  [-d|--directory PATH_TO_DATA]
+                  [--config input_directory=input (optional)
                             LinclustTemp_directory=LinclustTemp (optional)
                             output_directory=output (optional)
                             e_values=0.00001 (optional)
