@@ -1,4 +1,4 @@
-genomeAccession,tag1,tag2,tag3
+genomeAccession,priority_tag1,priority_tag2,priority_tag3
 gA,FALSE,TRUE,TRUE
 gB,FALSE,TRUE,FALSE
 gC,TRUE,FALSE,TRUE
