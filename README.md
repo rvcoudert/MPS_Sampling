@@ -16,11 +16,17 @@ Simply import the code from the GitHub repository: `git clone https://github.com
 
 Congratulations, MPS-Sampling is ready to go !
 
-## 👉 Example
+## 💾 Data
+
+### 👉 Pedagogical example
 
 The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/example/article) proposes the same example as presented in the article.
 <br />
 The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
+
+### 🎥 Reproducibility
+
+The data analyzed in the publication are available online on [figshare](https://figshare.com/): the [fasta files](https://figshare.com/articles/dataset/fasta_zip/22133030) and the [genome index](https://figshare.com/articles/dataset/genome_index_csv/22133045).
 
 ## 🔧 Usage
 
@@ -33,10 +39,11 @@ See the [input of the example](https://github.com/rvcoudert/MPS_Sampling/tree/ma
 ### 2) Launch
 
 ```
-snakemake --use-conda -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
+snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
 ```
 ```
-Usage: snakemake  --use-conda (necessary to use conda env)
+Usage: snakemake  [--use-conda (necessary to use conda env)]
+                  [--cores NUMBER OF CORES]
                   [-s|--snakefile PATH_TO_SNAKEFILE]
                   [-d|--directory PATH_TO_DATA]
                   [--config input_directory=input (optional)
@@ -82,9 +89,9 @@ Usage: snakemake  --use-conda (necessary to use conda env)
     2. Build MPS-clusters.
 5. Select MPS-representatives.
 
-### Illustrations
+### 🎨 Illustrations
 
-#### Complete workflow
+#### 💡 Complete workflow
 
 Below the complete workflow of MPS-Sampling.
 - First line: Genome level.
@@ -93,14 +100,14 @@ Below the complete workflow of MPS-Sampling.
 <p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.3_workflow_complete.png" alt="Complete WorkFlow of MPS-Sampling" width=80% /></p>
 
 
-#### DAG
+#### 📈  DAG
 
 Below the directed acyclic graph (DAG) describing the different steps of the SnakeMake pipeline of MPS-Sampling.
 
 <p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S1_Flowchart.png" alt="SnakeMake DAG (directed acyclic graph)" width=80%/></p>
 
 
-#### ERD
+#### 📋 ERD
 
 Below the entity relationship diagram (ERD) describing the different tables processed by MPS-Sampling.
 
