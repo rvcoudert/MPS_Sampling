@@ -118,7 +118,7 @@ MPS_clusters_directory = output_directory + "4_2.MPS_clusters/"
 # Set directory of genome cascading links.
 genome_cascading_links_directory = output_directory + "4_3.genome_cascading_links/"
 # Set directory of MPS-representatives and MPS-links.
-MPS_results_directory = output_directory + "4.MPS_results_directory/"
+MPS_results_directory = output_directory + "5.MPS_results_directory/"
 
 
 # List protein families.
