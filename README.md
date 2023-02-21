@@ -26,7 +26,7 @@ The sequences from 4 protein families enables the reduction of 10 genomes to 5 g
 
 ### 🎥 Reproducibility
 
-The data analyzed in the publication are available [online](https://figshare.com/articles/dataset/fasta_zip/22133030) on [figshare](https://figshare.com/).
+The data about the 158,027 genomes analyzed in the publication are available [online](https://figshare.com/articles/dataset/MPS-Sampling/22133120) on [figshare](https://figshare.com/).
 
 ## 🔧 Usage
 
