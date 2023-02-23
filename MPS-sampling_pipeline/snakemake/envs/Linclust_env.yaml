@@ -2,4 +2,4 @@ channels:
   - anaconda
   - bioconda
 dependencies:
-  - mmseqs2
+  - mmseqs2=13.45111
