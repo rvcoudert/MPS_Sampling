@@ -193,6 +193,10 @@ MPS_representatives <- rich_MPS_clusters %>%
     }
     rm(i)
 
+    # If no genome has been selected, then select all the genomes.
+    if (nrow(genome_selection) == 0)
+      genome_selection <- genome_subIndex
+
     # Select the best genome for this tag.
     genome_selection <- genome_selection[1, genomeAccession]
 
@@ -200,7 +204,7 @@ MPS_representatives <- rich_MPS_clusters %>%
   }, .progress = "text", .id = "MPS_cluster_ID")
 # Convert into a <data.table>.
 MPS_representatives <- data.table::as.data.table(MPS_representatives)
-# Prepare the simple combinations.
+# Prepare the simple Lin-combinations.
 simple_MPS_clusters_DT <- genome_cascading_links[
   !MPS_cluster_ID %in% rich_MPS_clusters,
   .(MPS_cluster_ID,
