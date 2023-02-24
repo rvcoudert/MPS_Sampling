@@ -45,7 +45,7 @@ MPS_clusterings <- nb_Lincombs_per_preconnected_component %>%
   magrittr::set_names(., .) %>%
   plyr::ldply(function(selected_precomponent_ID) {
     # DEBUG #
-    # selected_precomponent_ID <- "1"
+    # selected_precomponent_ID <- "188"
     # Display a progression message.
     cat(paste0(
       "Compute the hierarchical clustering with complete-linkage",

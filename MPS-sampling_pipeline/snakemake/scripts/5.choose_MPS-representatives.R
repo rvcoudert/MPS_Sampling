@@ -19,6 +19,7 @@ print("loadedNamespeces()")
 print(loadedNamespaces())
 cat("\n")
 
+
 genome_index <- snakemake@input[["genome_index"]] %>%
   data.table::fread()
 genome_cascading_links <- snakemake@input[["genome_cascading_links"]] %>%
@@ -41,6 +42,7 @@ Lincombination_matrix <- snakemake@input[["Lincombination_matrix"]] %>%
 replace_with_relativeFrequency <- function(Lincombination_matrix) {
   # List Lin-combination columns.
   Lincombination_columns <- colnames(Lincombination_matrix)
+  # Lincombination_columns <- Lincombination_columns[2:length(Lincombination_columns)]
 
   # Replace each Lin-custer by its (vertical) relative requency.
   Lincluster_frequency_DT <- Lincombination_matrix[, lapply(

@@ -234,7 +234,7 @@ get_preconnected_Lincombinations <- function(
     ignored_Lincombinations = ignored_Lincombinations)
   # Keep only the Lin-combinations above the given threshold of common elements.
   preconnected_Lincombinations <- names(list_common_Linclusters[
-    list_common_Linclusters >= min_nb_Linclusters])
+    list_common_Linclusters > min_nb_Linclusters])
   # Convert the index of the pre-connected Lin-combinations as an integer.
   preconnected_Lincombinations <- as.integer(preconnected_Lincombinations)
   # Add the target Lin-combinations.
@@ -337,6 +337,8 @@ split_into_preconnected_components <- function(
   # Initialize the remaining Lin-combination matrix to split.
   remaining_Lincombination_matrix <- Lincombination_matrix[
     !get(column_ID) %in% ignored_Lincombinations]
+  remaining_Lincombination_matrix <- Lincombination_matrix[
+    !get(column_ID) %in% isolated_Lincombinations]
 
   # If asked, then print a progression message.
   if (verbose) {
@@ -368,7 +370,7 @@ split_into_preconnected_components <- function(
 
     # If asked, then print a progression message.
     if (verbose) {
-      cat("Remaining rows  : ")
+      cat("Remaining Lin-combinations  : ")
       cat(format(x = nrow(remaining_Lincombination_matrix), big.mark = " "))
       cat("\n")
     }

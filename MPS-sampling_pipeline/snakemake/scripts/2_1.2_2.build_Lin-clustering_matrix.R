@@ -91,10 +91,10 @@ Linclustering_matrix <- Reduce(
                                  all = TRUE),
   Lincluster_DTs)
 # Order the <data.table> according to Lin-cluster numbering.
-# Linclustering_matrix <- Linclustering_matrix[
-#   do.call(order, Linclustering_matrix[, -1]),]
+Linclustering_matrix <- Linclustering_matrix[
+  do.call(order, Linclustering_matrix[, -1]),]
 # Order the <data.table> according to "genomeAccession".
-Linclustering_matrix <- Linclustering_matrix[order(genomeAccession), ]
+# Linclustering_matrix <- Linclustering_matrix[order(genomeAccession), ]
 cat("Done.\n")
 
 
