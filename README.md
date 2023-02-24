@@ -62,12 +62,12 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
   --config  input_directory=        Set the input directory. (default: "input")
             LinclustTemp_directory= Set the temporary directory for Linclust files. (default: "LinclustTemp")
             output_directory=       Set the output directory. (default: "output")
-            e_values=               Set the e-value for Linclust (step 1). It can be a set, e.g. {0.0001, 0.0001}. (default: 0.00001)
-            cov_modes=              Set the coverage mode for Linclust (step 1). It can be a set, e.g. {0, 1, 2}. (default: 0)
-            min_covs=               Set the minimum coverage for Linclust (step 1). It can be a set, e.g. {0.7, 0.8, 0.9}. (default: 0.8)
-            min_seq_ids=            Set the minimum sequence identity for Linclust (step 1). It can be a set, e.g. {0.4, 0.6, 0.8}. (default: 0.6)
-            min_nb_Linclusters=     Set the minimum number of common Lin-clusters identity for pre-connection (step 3). It can be a set, e.g. {10, 20, 30}. (default: 2)
-            deltas=                 Set the minimum similarity Δ for the hierarchical clustering with complete-linkage (step 4). It can be a set, e.g. {0.4, 0.5, 0.6}. (default: 0.5)
+            e_values=               Set the e-value for Linclust (step 1). It can be a set, e.g. [0.0001,0.0001]. (default: 0.00001)
+            cov_modes=              Set the coverage mode for Linclust (step 1). It can be a set, e.g. [0,1,2]. (default: 0)
+            min_covs=               Set the minimum coverage for Linclust (step 1). It can be a set, e.g. [0.7,0.8,0.9]. (default: 0.8)
+            min_seq_ids=            Set the minimum sequence identity for Linclust (step 1). It can be a set, e.g. [0.4,0.6,0.8]. (default: 0.6)
+            min_nb_Linclusters=     Set the minimum number of common Lin-clusters identity for pre-connection (step 3). It can be a set, e.g. [10,20,30]. (default: 2)
+            deltas=                 Set the minimum similarity Δ for the hierarchical clustering with complete-linkage (step 4). It can be a set, e.g. [0.4,0.5,0.6]. (default: 0.5)
     
 ```
 
