@@ -234,7 +234,7 @@ get_preconnected_Lincombinations <- function(
     ignored_Lincombinations = ignored_Lincombinations)
   # Keep only the Lin-combinations above the given threshold of common elements.
   preconnected_Lincombinations <- names(list_common_Linclusters[
-    list_common_Linclusters > min_nb_Linclusters])
+    list_common_Linclusters >= min_nb_Linclusters])
   # Convert the index of the pre-connected Lin-combinations as an integer.
   preconnected_Lincombinations <- as.integer(preconnected_Lincombinations)
   # Add the target Lin-combinations.
