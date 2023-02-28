@@ -16,18 +16,6 @@ Simply import the code from the GitHub repository: `git clone https://github.com
 
 Congratulations, MPS-Sampling is ready to go !
 
-## 💾 Data
-
-### 👉 Pedagogical example
-
-The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/example/article) proposes the same example as presented in the article.
-<br />
-The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
-
-### 🎥 Reproducibility
-
-The data about the 158,027 genomes analyzed in the publication are available [online](https://figshare.com/articles/dataset/MPS-Sampling/22133120) on [figshare](https://figshare.com/).
-
 ## 🔧 Usage
 
 ### 1) Prepare the input
@@ -69,6 +57,26 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
             min_nb_Linclusters=     Set the minimum number of common Lin-clusters identity for pre-connection (step 3). It can be a set, e.g. [10,20,30]. (default: 2)
             deltas=                 Set the minimum similarity Δ for the hierarchical clustering with complete-linkage (step 4). It can be a set, e.g. [0.4,0.5,0.6]. (default: 0.5)
     
+```
+
+## 💾 Data
+
+### 👉 Pedagogical example
+
+The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/example/article) proposes the same example as presented in the article.
+<br />
+The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
+
+```
+snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
+```
+
+### 🎥 Reproducibility
+
+The data about the 158,027 genomes analyzed in the publication are available [online](https://figshare.com/articles/dataset/MPS-Sampling/22133120) on [figshare](https://figshare.com/).
+
+```
+snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --config min_nb_Linclusters=28 deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
 ```
 
 ## 🐍 Workflow
