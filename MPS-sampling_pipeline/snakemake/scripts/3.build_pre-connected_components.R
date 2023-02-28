@@ -2,9 +2,9 @@
 # Build pre-connected components.
 
 
-# save.image("~/3.build_pre-connected_componentsDS")
+# save.image("~/3.build_pre-connected_components.RDS")
 # stop()
-# load("~/3.build_pre-connected_componentsDS")
+# load("~/3.build_pre-connected_components.RDS")
 
 
 ##### Input #####
