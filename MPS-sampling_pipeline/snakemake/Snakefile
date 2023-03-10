@@ -1,8 +1,27 @@
 ## Snakefile
 ##  Python script to manage the Snakemake pipeline.
 
+# (.) Rename fasta files
+# for file in */*_prot_nonparalog.fst; do mv "$file" "${file/_prot_nonparalog.fst/.fasta}"; done
 
-# snakemake --cores 1 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data
+# (.) Optimize parameters
+# min_seq_id
+# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_seq_ids=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
+# min_cov
+# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_covs=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
+# e_value
+# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config e_values=[1,1e-1,1e-2,1e-3,1e-4,1e-5,1e-6,1e-7,1e-8,1e-9,1e-10]
+# cov_mode
+# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config cov_modes=[0,1,2,3]
+# mix min_seq_id/min_cov
+# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_seq_ids=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1] min_covs=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
+# min_nb_Linclusters
+# snakemake --cores 20 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_nb_Linclusters=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47]
+# delta
+# snakemake --cores 20 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_nb_Linclusters=25 deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
+
+# archaea Batiste
+# snakemake --cores 20 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/archaea_230306/ --config min_nb_Linclusters=1 deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
 
 
 ## Get config variables.
@@ -80,6 +99,15 @@ else:
     if verbose:
         print("Minimum sequence identites (Linclust) are not defined in the snakemake command.\nSet to default min_seq_ids=0.6.")
         
+# Set ascending order or descending order for the sorting strategy of the Lin-clustering matrix.
+# if "ascending_order" in config.keys():
+#     ascending_order = config["ascending_order"]
+# else:
+#     ascending_order = False
+#     if verbose:
+#         print("Ascending order (Lin-clustering matrix) is not defined in the snakemake command.\nSet to default ascending_order=False.")
+ascending_order = True
+
 # Set minimum number of Lin-clusters for the pre-connection.
 if "min_nb_Linclusters" in config.keys():
     min_nb_Linclusters = config["min_nb_Linclusters"]
@@ -133,7 +161,7 @@ if verbose:
 rule all:
     input:
         # Step 0: Check integrity and compute input stats.
-        # input_stats = input_stats_directory + "input_stats.csv"
+        input_stats = input_stats_directory + "input_stats.csv",
         # Step 1: Build Lin-clusters whithin protein families.
         # Lincluster_files = expand(Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_cluster.tsv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, proteinFamily=list_proteinFamilies)
         # # Steps 2-1, 2-2: Build Lin-cluster matrix.
@@ -141,7 +169,7 @@ rule all:
         # # Step 2-3: Build the Lin-combination matrix.
         # Lincombination_matrix = expand(Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids)
         # # Step 3: Build pre-connected components.
-        # Lincomb_precomp_links = expand(preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
+        Lincomb_precomp_links = expand(preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
         # # Step 4-1: Compute similarity submatrices.
         # list_similarity_submatrices = expand(similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
         # # Step 4-2: Build MPS-clusters.
@@ -149,7 +177,7 @@ rule all:
         # # Step 4-3: Gather genome cascading links.
         # genome_cascading_links = expand(genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
         # # Step 5: Select MPS-representatives.
-        MPS_representatives = expand(MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas)
+        # MPS_representatives = expand(MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas)
 
 
 # Prefer fasta preparation over sequence clustering.
@@ -202,7 +230,8 @@ rule build_Linclustering_matrix:
     output:
         Linclustering_matrix = Linclustering_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Linclustering_matrix.csv"
     params:
-        cores = workflow.cores
+        cores = workflow.cores,
+        ascending_order = ascending_order
     conda:
         "envs/R_env.yaml"
     script:

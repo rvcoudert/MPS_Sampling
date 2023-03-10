@@ -1,5 +1,5 @@
 # 2_1.2_2.build_Lin-clustering_matrix.R
-# Label and merge Lin-clusters within protein families to build a single Lin-cluster matrix.
+# Label and merge Lin-clusters within protein families to build a single Lin-clustering matrix.
 
 
 # save.image("~/2_1.2_2.build_Lin-clustering_matrix.RDS")
@@ -20,6 +20,7 @@ print(loadedNamespaces())
 cat("\n")
 
 cores <- snakemake@params[["cores"]]
+ascending_order <- snakemake@params[["ascending_order"]]
 cat("Parallelization on", cores, "cores.\n")
 
 
@@ -35,9 +36,10 @@ if (cores > 1) {
 LinclusterFiles_List <- snakemake@input[["Lincluster_files"]]
 
 
-##### Lin-cluster matrix #####
+##### Compute #####
 
 
+## Compute the Lin-clustering matrix.
 nFamilies <- length(LinclusterFiles_List)
 cat(paste0("Merge Lin-clusters from ", nFamilies, " cluster files.\n"))
 # Name the Lin-cluster files according to the captured protein family name.
@@ -90,9 +92,67 @@ Linclustering_matrix <- Reduce(
                                  by = "genomeAccession",
                                  all = TRUE),
   Lincluster_DTs)
-# Order the <data.table> according to Lin-cluster numbering.
+
+
+##### Order #####
+
+
+## (i) Order the Lin-clustering matrix according to hashing values.
+
+
+# List the protein families and the genomes.
+proteinFamily_list <- colnames(Linclustering_matrix) %>%
+  .[2:(nFamilies + 1)]
+genomeAccession_list <- Linclustering_matrix$genomeAccession
+
+# Compute the hashing values for protein families and genomes.
+proteinFamily_hashValues <- proteinFamily_list %>%
+  plyr::llply(rlang::hash) %>%
+  unlist()
+genomeAccession_hashValues <- genomeAccession_list %>%
+  plyr::llply(rlang::hash) %>%
+  unlist()
+
+if (any(duplicated(genomeAccession_hashValues)))
+  stop("Overlapping hashing values from protein family names.")
+if (any(duplicated(proteinFamily_hashValues)))
+  stop("Overlapping hashing values from genome names.")
+
+# Re-order protein families and genomes according to hashing values.
+proteinFamily_match <- match(x = sort(proteinFamily_hashValues),
+                             table = proteinFamily_hashValues)
+genomeAccession_match <- match(x = sort(genomeAccession_hashValues),
+                               table = genomeAccession_hashValues)
+
+# Generate the new list of protein families and genomes.
+proteinFamily_newList <- proteinFamily_list[proteinFamily_match]
+genomeAccession_newList <- genomeAccession_list[genomeAccession_match]
+
+# Order the Lin-clustering matrix according to hashing values.
+Linclustering_matrix %>%
+  data.table::setcolorder(c("genomeAccession", proteinFamily_newList))
+Linclustering_matrix <- Linclustering_matrix[genomeAccession_match]
+
+
+## (ii) Order the Lin-clustering matrix according to Lin-clustering.
+
+
+# Order the columns of the <data.table> according to the number of Lin-clusters.
+nLinclusters_perProteinFamily <- lapply(
+  Linclustering_matrix[, -1],
+  max,
+  na.rm = TRUE) %>%
+  unlist() %>%
+  sort(decreasing = !ascending_order)
+proteinFamily_newList_2 <- names(nLinclusters_perProteinFamily)
+Linclustering_matrix %>%
+  data.table::setcolorder(c("genomeAccession", proteinFamily_newList_2))
+
+
+# Order the rows of the <data.table> according to the Lin-cluster numbering.
 Linclustering_matrix <- Linclustering_matrix[
-  do.call(order, Linclustering_matrix[, -1]),]
+  do.call(order, list(cols = Linclustering_matrix[, -1],
+                      decreasing = !ascending_order))]
 # Order the <data.table> according to "genomeAccession".
 # Linclustering_matrix <- Linclustering_matrix[order(genomeAccession), ]
 cat("Done.\n")
@@ -105,4 +165,3 @@ data.table::fwrite(
   x = Linclustering_matrix,
   file = snakemake@output[["Linclustering_matrix"]],
   sep = ";")
-

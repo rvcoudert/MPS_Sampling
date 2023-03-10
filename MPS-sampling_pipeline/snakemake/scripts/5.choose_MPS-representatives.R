@@ -22,9 +22,9 @@ cat("\n")
 
 genome_index <- snakemake@input[["genome_index"]] %>%
   data.table::fread()
-genome_cascading_links <- snakemake@input[["genome_cascading_links"]] %>%
-  data.table::fread()
 Lincombination_matrix <- snakemake@input[["Lincombination_matrix"]] %>%
+  data.table::fread()
+genome_cascading_links <- snakemake@input[["genome_cascading_links"]] %>%
   data.table::fread()
 
 
@@ -42,7 +42,6 @@ Lincombination_matrix <- snakemake@input[["Lincombination_matrix"]] %>%
 replace_with_relativeFrequency <- function(Lincombination_matrix) {
   # List Lin-combination columns.
   Lincombination_columns <- colnames(Lincombination_matrix)
-  # Lincombination_columns <- Lincombination_columns[2:length(Lincombination_columns)]
 
   # Replace each Lin-custer by its (vertical) relative requency.
   Lincluster_frequency_DT <- Lincombination_matrix[, lapply(
@@ -104,7 +103,8 @@ genome_fullIndex <- data.table::merge.data.table(
 # Compute genome hash from genome accession.
 genome_fullIndex[
   , genomeHash := genomeAccession %>%
-    plyr::llply(rlang::hash) %>% stringr::str_sub(-6) %>% strtoi(16L)]
+    plyr::llply(rlang::hash) %>%
+    unlist()]
 
 
 ##### __Completeness #####
@@ -146,7 +146,7 @@ cat("Choose MPS-reprentatives for",
 MPS_representatives <- rich_MPS_clusters %>%
   plyr::ldply(function(current_MPS_cluster) {
     # DEBUG #
-    # current_MPS_cluster <- "1_1"
+    # current_MPS_cluster <- "1_2"
 
     # Get the list of the associated Lin-combinations.
     list_Lincombinations <- Lincomb_links[MPS_cluster_ID == current_MPS_cluster,

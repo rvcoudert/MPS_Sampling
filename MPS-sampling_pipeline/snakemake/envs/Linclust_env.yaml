@@ -1,5 +1,7 @@
 channels:
   - anaconda
   - bioconda
+  - conda-forge
 dependencies:
-  - mmseqs2=13.45111
+  - libgcc-ng=12.2.0
+  - mmseqs2=14.7e284
