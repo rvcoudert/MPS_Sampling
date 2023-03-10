@@ -63,7 +63,7 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
 
 ### 👉 Pedagogical example
 
-The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/example/article) proposes the same example as presented in the article.
+The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example) proposes the same example as presented in the article.
 <br />
 The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
 
