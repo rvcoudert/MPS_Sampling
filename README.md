@@ -63,9 +63,11 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
 
 ### 👉 Pedagogical example
 
-The directory [`example/article`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example) proposes the same example as presented in the article.
+The directory [`data/example`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example) proposes the same example as presented in the article.
 <br />
 The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
+<br />
+There are also several other [`examples`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data) with the same data but in another order or with another labels.
 
 ```
 snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
