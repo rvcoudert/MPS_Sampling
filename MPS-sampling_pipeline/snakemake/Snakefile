@@ -169,9 +169,9 @@ rule all:
         # # Step 2-3: Build the Lin-combination matrix.
         # Lincombination_matrix = expand(Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids)
         # # Step 3: Build pre-connected components.
-        Lincomb_precomp_links = expand(preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
+        # Lincomb_precomp_links = expand(preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
         # # Step 4-1: Compute similarity submatrices.
-        # list_similarity_submatrices = expand(similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
+        list_similarity_submatrices = expand(similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
         # # Step 4-2: Build MPS-clusters.
         # Lincomb_MPS_clusters_links = expand(MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
         # # Step 4-3: Gather genome cascading links.
@@ -288,6 +288,8 @@ rule compute_similarity_submatrices:
         similarity_submatrices_directory = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/similarity_submatrices/"
     conda:
         "envs/R_env.yaml"
+    benchmark:
+        similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/benchmarks/compute_submatrices.txt"
     script:
         "scripts/4_1.compute_similarity_submatrices.R"
 
