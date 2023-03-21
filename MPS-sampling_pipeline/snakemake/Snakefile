@@ -1,28 +1,6 @@
 ## Snakefile
 ##  Python script to manage the Snakemake pipeline.
 
-# (.) Rename fasta files
-# for file in */*_prot_nonparalog.fst; do mv "$file" "${file/_prot_nonparalog.fst/.fasta}"; done
-
-# (.) Optimize parameters
-# min_seq_id
-# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_seq_ids=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
-# min_cov
-# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_covs=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
-# e_value
-# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config e_values=[1,1e-1,1e-2,1e-3,1e-4,1e-5,1e-6,1e-7,1e-8,1e-9,1e-10]
-# cov_mode
-# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config cov_modes=[0,1,2,3]
-# mix min_seq_id/min_cov
-# snakemake --cores 35 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_seq_ids=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1] min_covs=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
-# min_nb_Linclusters
-# snakemake --cores 20 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_nb_Linclusters=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47]
-# delta
-# snakemake --cores 20 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/full_data_2/ --config min_nb_Linclusters=25 deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
-
-# archaea Batiste
-# snakemake --cores 20 --use-conda -s ~/GIT/MPS-sampling_pipeline_2/snakemake/Snakefile -d /zfs/RVC/RUN/MPS-sampling/article/archaea_230306/ --config min_nb_Linclusters=1 deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
-
 
 ## Get config variables.
 # Verbose, to be or not to be.
@@ -171,13 +149,13 @@ rule all:
         # # Step 3: Build pre-connected components.
         # Lincomb_precomp_links = expand(preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
         # # Step 4-1: Compute similarity submatrices.
-        list_similarity_submatrices = expand(similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
+        # list_similarity_submatrices = expand(similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
         # # Step 4-2: Build MPS-clusters.
         # Lincomb_MPS_clusters_links = expand(MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
         # # Step 4-3: Gather genome cascading links.
         # genome_cascading_links = expand(genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
         # # Step 5: Select MPS-representatives.
-        # MPS_representatives = expand(MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas)
+        MPS_representatives = expand(MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas)
 
 
 # Prefer fasta preparation over sequence clustering.
