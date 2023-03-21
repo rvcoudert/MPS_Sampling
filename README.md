@@ -127,7 +127,8 @@ Below the entity relationship diagram (ERD) describing the different tables proc
 ## 📖 Publication
 
 
-[Coudert RV, Charrier JP, Jauffrit F, Flandrois JP, Brochier-Armanet C. Multi Proteins Similarity based sampling to select evolutionary significant representative genomes from large databases. BMC Bioinformatics, doi: XXX (2023)](https://github.com/rvcoudert/MPS_Sampling).
+(on going)
+
 
 ## 📲 Contact
 
