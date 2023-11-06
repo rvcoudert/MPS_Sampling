@@ -1,7 +1,6 @@
 ## Snakefile
 ##  Python script to manage the Snakemake pipeline.
 
-
 ## Get config variables.
 # Verbose, to be or not to be.
 if "verbose" in config.keys():
@@ -86,14 +85,6 @@ else:
 #         print("Ascending order (Lin-clustering matrix) is not defined in the snakemake command.\nSet to default ascending_order=False.")
 ascending_order = True
 
-# Set minimum number of Lin-clusters for the pre-connection.
-if "min_nb_Linclusters" in config.keys():
-    min_nb_Linclusters = config["min_nb_Linclusters"]
-else:
-    min_nb_Linclusters = 2
-    if verbose:
-        print("Minimum number of Lin-clusters (pre-connection) are not defined in the snakemake command.\nSet to default min_nb_Linclusters=2.")
-
 # Set minimum number of Lin-clusters for the hierarchical clustering with complete linkage.
 if "deltas" in config.keys():
     deltas = config["deltas"]
@@ -115,16 +106,16 @@ Linclust_directory = output_directory + "1.Linclust/"
 Linclustering_matrix_directory = output_directory + "2_1.2_2.Linclustering_matrix/"
 # Set directory of Lin-combination matrix.
 Lincombination_matrix_directory = output_directory + "2_3.Lincombination_matrix/"
-# Set directory of pre-connection.
-preconnection_directory = output_directory + "3.preconnection/"
-# Set directory of similarity submatrices.
-similarity_submatrices_directory = output_directory + "4_1.similarity_submatrices/"
+# Set directory of dissimilarity matrix.
+dissimilarity_matrix_directory = output_directory + "3_1.dissimilarity_matrix/"
+# Set directory of hierarchical clustering.
+hierarchical_clustering_directory = output_directory + "3_2.hierarchical_clustering/"
 # Set directory of MPS-clusters.
-MPS_clusters_directory = output_directory + "4_2.MPS_clusters/"
+MPS_clusters_directory = output_directory + "3_3.MPS_clusters/"
 # Set directory of genome cascading links.
-genome_cascading_links_directory = output_directory + "4_3.genome_cascading_links/"
+genome_cascading_links_directory = output_directory + "3_4.genome_cascading_links/"
 # Set directory of MPS-representatives and MPS-links.
-MPS_results_directory = output_directory + "5.MPS_results_directory/"
+MPS_results_directory = output_directory + "4.MPS_results_directory/"
 
 
 # List protein families.
@@ -146,16 +137,16 @@ rule all:
         # Linclustering_matrix = expand(Linclustering_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Linclustering_matrix.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids)
         # # Step 2-3: Build the Lin-combination matrix.
         # Lincombination_matrix = expand(Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids)
-        # # Step 3: Build pre-connected components.
-        # Lincomb_precomp_links = expand(preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
-        # # Step 4-1: Compute similarity submatrices.
-        # list_similarity_submatrices = expand(similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters)
-        # # Step 4-2: Build MPS-clusters.
-        # Lincomb_MPS_clusters_links = expand(MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
-        # # Step 4-3: Gather genome cascading links.
-        # genome_cascading_links = expand(genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas),
-        # # Step 5: Select MPS-representatives.
-        MPS_representatives = expand(MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, min_nb_Lincluster=min_nb_Linclusters, delta=deltas)
+        # # Step 3-1: Compute dissimilarity matrix.
+        # dissimilarity_matrix = expand(dissimilarity_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/dissimilarity_matrix.RDS", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids)
+        # # Step 3-2: Compute hierarchical clustering.
+        # hierarchical_clustering = expand(hierarchical_clustering_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/hierarchical_clustering.RDS", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids)
+        # # Step 3-3: Build MPS-clusters.
+        # Lincomb_MPS_clusters_links = expand(MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/Lincomb_MPS_cluster_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, delta=deltas),
+        # # Step 3-4: Gather genome cascading links.
+        # genome_cascading_links = expand(genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/genome_cascading_links.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, delta=deltas),
+        # # Step 4: Select MPS-representatives.
+        MPS_representatives = expand(MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/MPS_representatives.csv", e_value=e_values, cov_mode=cov_modes, min_cov=min_covs, min_seq_id=min_seq_ids, delta=deltas)
 
 
 # Prefer fasta preparation over sequence clustering.
@@ -192,7 +183,7 @@ rule Linclust:
         Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_rep_seq.fasta",
         Linclust_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/{proteinFamily}/{proteinFamily}.fasta_cluster.tsv"
     conda:
-        "envs/Linclust_env.yaml"
+         "envs/Linclust_env.yaml"
     shell:
         "mmseqs easy-cluster -e {wildcards.e_value} --cov-mode {wildcards.cov_mode} -c {wildcards.min_cov}  --min-seq-id {wildcards.min_seq_id} {input} " + Linclust_directory + "e_value_{wildcards.e_value}_cov_mode_{wildcards.cov_mode}_min_cov_{wildcards.min_cov}_min_seq_id_{wildcards.min_seq_id}/{wildcards.proteinFamily}/{wildcards.proteinFamily}.fasta " + LinclustTemp_directory + "/e_value_{wildcards.e_value}_cov_mode_{wildcards.cov_mode}_min_cov_{wildcards.min_cov}_min_seq_id_{wildcards.min_seq_id}_{wildcards.proteinFamily}"
 
@@ -234,92 +225,107 @@ rule build_Lincombination_matrix:
         "scripts/2_3.build_Lin-combination_matrix.R"
 
 
-## Step 3: Build pre-connected components.
+## Step 3-1a: Compute dissimilarity matrix.
 
 
-# Build pre-connected components.
-rule build_preconnected_components:
+# Compute the dissimilarity matrix between all Lincombinations.
+rule compute_dissimilarity_matrix:
     input:
-        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv",
+        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv"
     output:
-        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv"
+        dissimilarity_matrix_raw = dissimilarity_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/dissimilarity_matrix_raw.RDS"
     params:
-        cores = workflow.cores,
-        min_nb_Lincluster = "{min_nb_Lincluster}"
+        cores = workflow.cores
     conda:
         "envs/R_env.yaml"
     script:
-        "scripts/3.build_pre-connected_components.R"
+        "scripts/3_1a.compute_dissimilarity_matrix.R"
 
 
-## Step 4-1: Compute similarity sub-matrices.
+## Step 3-1b: Convert dissimilarity matrix.
 
 
-# Compute similarity submatrix for each pre-connected component.
-rule compute_similarity_submatrices:
+# Convert the dissimilarity matrix between all Lincombinations.
+rule convert_dissimilarity_matrix:
     input:
-        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv",
-        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv"
+        dissimilarity_matrix_raw = dissimilarity_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/dissimilarity_matrix_raw.RDS"
     output:
-        list_similarity_submatrices = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv"
+        dissimilarity_matrix = dissimilarity_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/dissimilarity_matrix.RDS"
     params:
-        similarity_submatrices_directory = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/similarity_submatrices/"
+        cores = workflow.cores
     conda:
         "envs/R_env.yaml"
-    benchmark:
-        similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/benchmarks/compute_submatrices.txt"
     script:
-        "scripts/4_1.compute_similarity_submatrices.R"
+        "scripts/3_1b.convert_dissimilarity_matrix.R"
 
 
-## Step 4-2: Build MPS-clusters.
+## Step 3-2: Compute hierarchical clustering.
+
+
+# Compute hierarchical clustering of all Lincombinations.
+rule compute_hierarchical_clustering:
+    input:
+        dissimilarity_matrix = dissimilarity_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/dissimilarity_matrix.RDS"
+    output:
+        hierachical_clustering = hierarchical_clustering_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/hierarchical_clustering.RDS"
+    params:
+        cores = workflow.cores
+    conda:
+        "envs/R_env.yaml"
+    script:
+        "scripts/3_2.compute_hierarchical_clustering.R"
+
+
+## Step 3-3: Build MPS-clusters.
 
 
 # Build MPS-clusters through hierarchical clustering with complete-linkage.
 rule compute_MPS_clustering:
     input:
-        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv",
-        list_similarity_submatrices = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/list_similarity_submatrices.csv"
+        hierachical_clustering = hierarchical_clustering_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/hierarchical_clustering.RDS"
     output:
-        Lincomb_MPS_cluster_links = MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv",
+        Lincomb_MPS_cluster_links = MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/Lincomb_MPS_cluster_links.csv",
     params:
         delta = "{delta}",
-        similarity_submatrices_directory = similarity_submatrices_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/similarity_submatrices/"
+        cores = workflow.cores
     conda:
         "envs/R_env.yaml"
     script:
-        "scripts/4_2.build_MPS-clusters.R"
+        "scripts/3_3.build_MPS-clusters.R"
 
 
-## Step 4-3: Gather genome cascading links.
+## Step 3-4: Gather genome cascading links.
 
 
 # Gather cascading genome clusterings into one single file.
 rule gather_cascading_links:
     input:
         gen_Lincomb_links = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/gen_Lincomb_links.csv",
-        Lincomb_precomp_links = preconnection_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}/Lincomb_precomp_links.csv",
-        Lincomb_MPS_cluster_links = MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/Lincomb_MPS_cluster_links.csv",
+        Lincomb_MPS_cluster_links = MPS_clusters_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/Lincomb_MPS_cluster_links.csv"
     output:
-        genome_cascading_links = genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv",
+        genome_cascading_links = genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/genome_cascading_links.csv",
+    params:
+        cores = workflow.cores
     conda:
         "envs/R_env.yaml"
     script:
-        "scripts/4_3.gather_cascading_links.R"
+        "scripts/3_4.gather_cascading_links.R"
 
 
-## Step 5: Select MPS-representatives.
+## Step 4: Select MPS-representatives.
 
 # Select one MPS-representative genome per MPS-cluster.
 rule select_MPS_representatives:
     input:
         genome_index = input_directory + "genome_index.csv",
-        genome_cascading_links = genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/genome_cascading_links.csv",
-        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv"
+        Lincombination_matrix = Lincombination_matrix_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/Lincombination_matrix.csv",
+        genome_cascading_links = genome_cascading_links_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/genome_cascading_links.csv"
     output:
-        MPS_representatives = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_representatives.csv",
-        MPS_links = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}_min_nb_Linclusters_{min_nb_Lincluster}_delta_{delta}/MPS_links.csv",
+        MPS_representatives = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/MPS_representatives.csv",
+        MPS_links = MPS_results_directory + "e_value_{e_value}_cov_mode_{cov_mode}_min_cov_{min_cov}_min_seq_id_{min_seq_id}/delta_{delta}/MPS_links.csv"
+    params:
+        cores = workflow.cores
     conda:
         "envs/R_env.yaml"
     script:
-        "scripts/5.choose_MPS-representatives.R"
+        "scripts/4.choose_MPS-representatives.R"
