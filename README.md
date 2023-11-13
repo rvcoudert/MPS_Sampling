@@ -41,7 +41,6 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
                             cov_modes=0 (optional)
                             min_covs=0.8 (optional)
                             min_seq_ids=0.6 (optional)
-                            min_nb_Linclusters=2 (optional)
                             deltas=0.5 (optional)]
                        
  Options:
@@ -54,7 +53,6 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
             cov_modes=              Set the coverage mode for Linclust (step 1). It can be a set, e.g. [0,1,2]. (default: 0)
             min_covs=               Set the minimum coverage for Linclust (step 1). It can be a set, e.g. [0.7,0.8,0.9]. (default: 0.8)
             min_seq_ids=            Set the minimum sequence identity for Linclust (step 1). It can be a set, e.g. [0.4,0.6,0.8]. (default: 0.6)
-            min_nb_Linclusters=     Set the minimum number of common Lin-clusters identity for pre-connection (step 3). It can be a set, e.g. [10,20,30]. (default: 2)
             deltas=                 Set the minimum similarity Δ for the hierarchical clustering with complete-linkage (step 4). It can be a set, e.g. [0.4,0.5,0.6]. (default: 0.5)
     
 ```
@@ -78,7 +76,7 @@ snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_
 The data about the 178,203 genomes analyzed in the publication are available [online](https://figshare.com/articles/dataset/MPS-Sampling/22133120) on [figshare](https://figshare.com/).
 
 ```
-snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --config min_nb_Linclusters=25 deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
+snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --config deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
 ```
 
 ## 🐍 Workflow
