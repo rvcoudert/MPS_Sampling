@@ -118,7 +118,7 @@ Below the directed acyclic graph (DAG) describing the different steps of the Sna
 
 Below the entity relationship diagram (ERD) describing the different tables processed by MPS-Sampling.
 
-<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/3.ERD.png" alt="Tables and ERD (entity relationship diagram)" width=60%/></p>
+<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/3.ERD_.png" alt="Tables and ERD (entity relationship diagram)" width=60%/></p>
 
 
 ## 📖 Publication
