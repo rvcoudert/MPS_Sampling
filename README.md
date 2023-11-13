@@ -107,21 +107,21 @@ Below the complete workflow of MPS-Sampling.
 - First line: Genome level.
 - Second line: Encoding levels.
 
-<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.3_workflow_complete.png" alt="Complete WorkFlow of MPS-Sampling" width=80% /></p>
+<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/1.workflow.png" alt="Complete WorkFlow of MPS-Sampling" width=80% /></p>
 
 
 #### 📈  DAG
 
 Below the directed acyclic graph (DAG) describing the different steps of the SnakeMake pipeline of MPS-Sampling.
 
-<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S1_Flowchart.png" alt="SnakeMake DAG (directed acyclic graph)" width=80%/></p>
+<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/2.DAG.png" alt="SnakeMake DAG (directed acyclic graph)" width=80%/></p>
 
 
 #### 📋 ERD
 
 Below the entity relationship diagram (ERD) describing the different tables processed by MPS-Sampling.
 
-<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/Illustrations/Fig.S2_Tables.png" alt="Tables and ERD (entity relationship diagram)" width=60%/></p>
+<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/3.ERD.png" alt="Tables and ERD (entity relationship diagram)" width=60%/></p>
 
 
 ## 📖 Publication
