@@ -93,11 +93,10 @@ snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --confi
     1. Build the Lin-clustering matrix.
     2. Dereplicate the rows.
     3. Build the Lin-combination matrix.
-3. Build pre-connected components.
-4. Build MPS-clusters.
-    1. Compute similarity submatrices.
+3. Build MPS-clusters.
+    1. Compute the similarity matrix.
     2. Build MPS-clusters.
-5. Select MPS-representatives.
+4. Select MPS-representatives.
 
 ### 🎨 Illustrations
 
