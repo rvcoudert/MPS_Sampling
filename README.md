@@ -73,7 +73,7 @@ snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_
 
 ### 🎥 Reproducibility
 
-The data about the 178,203 genomes analyzed in the publication are available [online](https://figshare.com/articles/dataset/MPS-Sampling/22133120) on [figshare](https://figshare.com/).
+The data about the 178,203 genomes analyzed in the publication are available [online](10.6084/m9.figshare.24552160) on [figshare](https://figshare.com/).
 
 ```
 snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --config deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
