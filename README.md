@@ -89,9 +89,9 @@ snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --confi
 
 0. Check integrity and compute input stats.
 1. Build Lin-clusters whithin protein families.
-2. Build the Lin-combination matrix.
-    1. Build Lin-cluster matrix.
-    2. Rereplicate the rows.
+2. Build the Lin-combinations.
+    1. Build the Lin-clustering matrix.
+    2. Dereplicate the rows.
     3. Build the Lin-combination matrix.
 3. Build pre-connected components.
 4. Build MPS-clusters.
