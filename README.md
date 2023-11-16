@@ -86,10 +86,10 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
     
 ```
 
-For example, the `example_1` can analyzed by MPS-Sampling with :
+The `example_1` can analyzed by MPS-Sampling with :
 
 ```
-snakemake --use-conda --cores 1 -s [MPS-sampling_pipeline/snakemake/Snakefile](https://github.com/rvcoudert/MPS_Sampling/blob/main/MPS-sampling_pipeline/snakemake/Snakefile) -d [data/examples/example_1](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/examples/example_1)
+snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/examples/example_1
 ```
 
 ## 💾 Data
@@ -102,9 +102,6 @@ The sequences from 4 protein families enables the reduction of 10 genomes to 5 g
 <br />
 There are also several versions of the same example, withthe same data but in another order or with another labels, as described in the [ReadMe.md](https://github.com/rvcoudert/MPS_Sampling/blob/main/data/examples/ReadMe.md).
 
-```
-snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
-```
 
 ### 🎥 Reproducibility
 
