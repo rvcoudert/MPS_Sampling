@@ -94,7 +94,7 @@ snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d 
 
 ## 💾 Data
 
-### 👉 Pedagogical example
+### 👉 Examples
 
 The directory [`data/examples`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/examples) proposes the same examples as presented in the article.
 <br />
@@ -105,7 +105,7 @@ There are also several versions of the same example, withthe same data but in an
 
 ### 🎥 Reproducibility
 
-The data about the 178,203 genomes analyzed in the publication are available [online](https://figshare.com/articles/dataset/Article_-_MPS-Sampling/24552160) on [figshare](https://figshare.com/).
+The data about the 178,203 genomes analyzed in the publication are available [online on figshare](https://figshare.com/articles/dataset/Article_-_MPS-Sampling/24552160).
 
 ```
 snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --config deltas=[1,0.9,0.8,0.7,0.6,0.5,0.4]
