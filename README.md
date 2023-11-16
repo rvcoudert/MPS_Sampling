@@ -50,7 +50,7 @@ The data directory needs to contain the input data in a subdirectory called `inp
 - *genome_index.csv*: A `csv` file with one row per genome and two columns, one for the primary key "genomeAccession" and another one for the priority score.
 - *fasta/protein_family/protein_family.fasta*: A `fasta` file for each protein family.
 
-See the organization of the [example_1](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/examples/example_1).
+See the organization of the [example_1](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example_1).
 
 ### 2) Launch
 
@@ -86,21 +86,26 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
     
 ```
 
-The `example_1` can analyzed by MPS-Sampling with :
+The examples can analyzed by MPS-Sampling with :
 
 ```
-snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/examples/example_1
+snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/example_1
+snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/example_2
+snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/example_3
+snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/example_4
+snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/example_5
+snakemake --use-conda --cores 1 -s MPS-sampling_pipeline/snakemake/Snakefile -d data/example_bio
 ```
 
 ## 💾 Data
 
 ### 👉 Examples
 
-The directory [`data/examples`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/examples) proposes the same examples as presented in the article.
+The directory [`data`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data) proposes the same examples as presented in the article.
 <br />
 The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
 <br />
-There are also several versions of the same example, withthe same data but in another order or with another labels, as described in the [ReadMe.md](https://github.com/rvcoudert/MPS_Sampling/blob/main/data/examples/ReadMe.md).
+There are also several versions of the same example, withthe same data but in another order or with another labels, as described in the [ReadMe.md](https://github.com/rvcoudert/MPS_Sampling/blob/main/data/ReadMe.md).
 
 
 ### 🎥 Reproducibility
