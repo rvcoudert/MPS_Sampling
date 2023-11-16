@@ -4,9 +4,20 @@
 
 ## ⚙️ Installation
 
-### 🐍 Install SnakeMake
+### 💻 Install a Conda-based Python3 distribution
 
-SnakeMake installation method is available on the [official website](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
+It could be [Mambaforge aka miniforge](https://github.com/conda-forge/miniforge) (recommanded) or [Conda](https://docs.conda.io/) (alternative).
+Mambaforge can be installed for your own system with the following code :
+```
+wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh
+```
+`$(uname -m)` and `$(uname -m)` will provide the required informations for choosing the adequate version of Mambaforge. For example, `$(uname -m)` and `$(uname -m)` could provide respectively `Linux` and `x86_64`.
+
+### 🐍 Install Snakemake
+
+Snakemake installation method is available on the [official website](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
+
 
 ### 📇 Import MPS-Sampling
 
@@ -109,9 +120,9 @@ Below the complete workflow of MPS-Sampling.
 
 #### 📈  DAG
 
-Below the directed acyclic graph (DAG) describing the different steps of the SnakeMake pipeline of MPS-Sampling.
+Below the directed acyclic graph (DAG) describing the different steps of the Snakemake pipeline of MPS-Sampling.
 
-<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/2.DAG.png" alt="SnakeMake DAG (directed acyclic graph)" width=80%/></p>
+<p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/2.DAG.png" alt="Snakemake DAG (directed acyclic graph)" width=80%/></p>
 
 
 #### 📋 ERD
