@@ -7,6 +7,7 @@
 ### 💻 Install a Conda-based Python3 distribution
 
 It could be [Mambaforge aka miniforge](https://github.com/conda-forge/miniforge) (recommanded) or [Conda](https://docs.conda.io/) (alternative).
+
 Mambaforge can be installed for your own system with the following code :
 ```
 wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
