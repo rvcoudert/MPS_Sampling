@@ -21,7 +21,7 @@ bash Miniforge3-$(uname)-$(uname -m).sh
 
 ### 🐍 Install Snakemake
 
-(Snakemake)[official website](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) can be installed with the following code :
+[Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) can be installed with the following code :
 ```
 conda activate base
 $ mamba create -c bioconda -c conda-forge -n snakemake snakemake-minimal
@@ -46,15 +46,18 @@ Congratulations, MPS-Sampling is ready to go !
 
 ### 1) Prepare the input
 
-See the [input of the example](https://github.com/rvcoudert/MPS_Sampling/tree/main/example/article/input).
-- *genome_index.csv*: A `csv` file with one row per genome, one column for the primary key "genomeAccession" and one column for each priority tag.
+The data directory needs to contain the input data in a subdirectory called `input` and containing :
+- *genome_index.csv*: A `csv` file with one row per genome and two columns, one for the primary key "genomeAccession" and another one for the priority score.
 - *fasta/protein_family/protein_family.fasta*: A `fasta` file for each protein family.
+
+See the organization of the [example_1](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/examples/example_1).
 
 ### 2) Launch
 
 ```
 snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
 ```
+
 ```
 Usage: snakemake  [--use-conda (necessary to use conda env)]
                   [--cores NUMBER OF CORES]
@@ -70,7 +73,7 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
                             deltas=0.5 (optional)]
                        
  Options:
-  -s, --snakefile                   Path to the SnakeFile of MPS-Sampling.
+  -s, --snakefile                   Path to the SnakeFile of MPS-Sampling, located at [MPS-sampling_pipeline/snakemake/Snakefile](https://github.com/rvcoudert/MPS_Sampling/blob/main/MPS-sampling_pipeline/snakemake/Snakefile).
   -d, --directory                   Path to the dataset to process.
   --config  input_directory=        Set the input directory. (default: "input")
             LinclustTemp_directory= Set the temporary directory for Linclust files. (default: "LinclustTemp")
@@ -83,15 +86,21 @@ Usage: snakemake  [--use-conda (necessary to use conda env)]
     
 ```
 
+For example, the `example_1` can analyzed by MPS-Sampling with :
+
+```
+snakemake --use-conda --cores 1 -s [MPS-sampling_pipeline/snakemake/Snakefile](https://github.com/rvcoudert/MPS_Sampling/blob/main/MPS-sampling_pipeline/snakemake/Snakefile) -d [data/examples/example_1](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/examples/example_1)
+```
+
 ## 💾 Data
 
 ### 👉 Pedagogical example
 
-The directory [`data/example`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/example) proposes the same example as presented in the article.
+The directory [`data/examples`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data/examples) proposes the same examples as presented in the article.
 <br />
 The sequences from 4 protein families enables the reduction of 10 genomes to 5 genomes.
 <br />
-There are also several other [`examples`](https://github.com/rvcoudert/MPS_Sampling/tree/main/data) with the same data but in another order or with another labels.
+There are also several versions of the same example, withthe same data but in another order or with another labels, as described in the [ReadMe.md](https://github.com/rvcoudert/MPS_Sampling/blob/main/data/examples/ReadMe.md).
 
 ```
 snakemake --use-conda --cores [NUMBER_OF_CORES] -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA]
