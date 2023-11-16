@@ -6,25 +6,39 @@
 
 ### 💻 Install a Conda-based Python3 distribution
 
-It could be [Mambaforge aka miniforge](https://github.com/conda-forge/miniforge) (recommanded) or [Conda](https://docs.conda.io/) (alternative).
+It could be :
+- [Miniforge](https://github.com/conda-forge/miniforge), a new name project for Mambaforge (recommanded)
+- or [Conda](https://docs.conda.io/) (not recommanded)
 
-Mambaforge can be installed for your own system with the following code :
+Miniforge can be installed for your own system with the following code :
+
 ```
 wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
 bash Miniforge3-$(uname)-$(uname -m).sh
 ```
-`$(uname -m)` and `$(uname -m)` will provide the required informations for choosing the adequate version of Mambaforge. For example, `$(uname -m)` and `$(uname -m)` could provide respectively `Linux` and `x86_64`.
+
+`$(uname -m)` and `$(uname -m)` will provide the required informations for choosing the adequate version of Miniforge, e.g. respectively `Linux` and `x86_64`.
 
 ### 🐍 Install Snakemake
 
-Snakemake installation method is available on the [official website](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
-
+(Snakemake)[official website](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) can be installed with the following code :
+```
+conda activate base
+$ mamba create -c bioconda -c conda-forge -n snakemake snakemake-minimal
+```
 
 ### 📇 Import MPS-Sampling
 
 Simply import the code from the GitHub repository: `git clone https://github.com/rvcoudert/MPS_Sampling`
 
 ### 🎉 Finish
+
+Activate the Conda environment for Snakemake, preferably in a dedicated [screen](https://linux.die.net/man/1/screen).
+
+```
+screen -S MPS_Sampling
+conda activate snakemake
+```
 
 Congratulations, MPS-Sampling is ready to go !
 
