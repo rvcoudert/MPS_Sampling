@@ -138,8 +138,6 @@ snakemake --use-conda --cores 1 -s [PATH_TO_SNAKEFILE] -d [PATH_TO_DATA] --confi
 #### 💡 Complete workflow
 
 Below the complete workflow of MPS-Sampling.
-- First line: Genome level.
-- Second line: Encoding levels.
 
 <p align="center"><img src="https://github.com/rvcoudert/MPS_Sampling/blob/main/illustrations/1.workflow.png" alt="Complete WorkFlow of MPS-Sampling" width=80% /></p>
 
