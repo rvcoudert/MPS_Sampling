@@ -24,7 +24,7 @@ bash Miniforge3-$(uname)-$(uname -m).sh
 [Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) can be installed with the following code :
 ```
 conda activate base
-$ mamba create -c bioconda -c conda-forge -n snakemake snakemake-minimal
+mamba create -c bioconda -c conda-forge -n snakemake snakemake-minimal
 ```
 
 ### 📇 Import MPS-Sampling
