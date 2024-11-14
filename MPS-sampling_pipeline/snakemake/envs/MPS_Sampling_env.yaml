@@ -1,0 +1,18 @@
+channels:
+  - anaconda
+  - r
+  - bioconda
+  - conda-forge
+dependencies:
+  - snakemake
+  - mmseqs2=14.7e284
+  - r-base=4.2.2
+  - r-magrittr=2.0.3
+  - r-data.table=1.14.8
+  - r-stringr=1.5.0
+  - r-stringi=1.7.12
+  - r-plyr=1.8.8
+  - bioconductor-biostrings=2.66.0
+  - r-purrr=1.0.1
+  - r-doParallel=1.0.17
+  - r-fastcluster=1.2.3
