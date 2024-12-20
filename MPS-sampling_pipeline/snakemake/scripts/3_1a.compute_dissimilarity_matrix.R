@@ -4,8 +4,7 @@
 # rv.coudert@gmail.com
 # celine.brochier-armanet@univ-lyon1.fr
 # 
-# This software is a computer program whose purpose is to [describe
-# functionalities and technical features of your software].
+# This software is a computer program whose purpose is to sample representative genomes from large datasets.
 # 
 # This software is governed by the [CeCILL|CeCILL-B|CeCILL-C] license under French law and
 # abiding by the rules of distribution of free software.  You can  use, 
