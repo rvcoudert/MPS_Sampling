@@ -159,7 +159,7 @@ Below the entity relationship diagram (ERD) describing the different tables proc
 ## 📖 Publication
 
 
-(on going)
+[(Coudert, R. V., Charrier, J. P., Jauffrit, F., Flandrois, J. P., & Brochier-Armanet, C. (2025). Multi-proteins similarity-based sampling to select representative genomes from large databases. BMC bioinformatics, 26(1), 121.)](https://doi.org/10.1186/s12859-025-06095-3)
 
 
 ## 📲 Contact
